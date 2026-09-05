@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nilikaa Cantina — Foodtruck</title>
+<meta name="description" content="Nilikaa Cantina, foodtruck : découvrez notre histoire, notre cuisine, nos prestations événementielles et demandez votre devis.">
+<link rel="icon" href="photos/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Questrial&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <img src="photos/logo.jpg" alt="Logo Nilikaa Cantina">
+      <span>Nilikaa Cantina</span>
+    </a>
+    <nav>
+      <a href="#presentation">Le foodtruck</a>
+      <a href="#food">Notre cuisine</a>
+      <a href="#prestation">Prestations</a>
+      <a href="#contact">Devis / Contact</a>
+      <a href="blog.html">Blog</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="background-image:url('photos/foodtruck_bayonne_front.jpg.jpeg');">
+  <div class="hero-overlay">
+    <h1>Nilikaa Cantina</h1>
+    <p>Le foodtruck qui vient régaler vos papilles</p>
+    <a href="#contact" class="btn">Demander un devis</a>
+  </div>
+</section>
+
+<main>
+  <section id="presentation" class="section" data-include="presentation"></section>
+  <section id="food" class="section alt" data-include="food"></section>
+  <section id="prestation" class="section" data-include="prestation"></section>
+  <section id="contact" class="section alt" data-include="contact"></section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; <span id="year"></span> Nilikaa Cantina</p>
+  </div>
+</footer>
+
+<script src="content/presentation.js"></script>
+<script src="content/food.js"></script>
+<script src="content/prestation.js"></script>
+<script src="content/contact.js"></script>
+<script src="assets/js/include.js"></script>
+</body>
+</html>

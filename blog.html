@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Nilikaa Cantina</title>
+<meta name="description" content="Le blog de Nilikaa Cantina : actualités, coulisses et recettes du foodtruck.">
+<link rel="icon" href="photos/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Questrial&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <img src="photos/logo.jpg" alt="Logo Nilikaa Cantina">
+      <span>Nilikaa Cantina</span>
+    </a>
+    <nav>
+      <a href="index.html#presentation">Le foodtruck</a>
+      <a href="index.html#food">Notre cuisine</a>
+      <a href="index.html#prestation">Prestations</a>
+      <a href="index.html#contact">Devis / Contact</a>
+      <a href="blog.html">Blog</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section" data-include="blog-intro"></section>
+  <section class="section alt">
+    <div class="container">
+      <h2>Les articles</h2>
+      <ul class="blog-list">
+        <li>
+          <a href="blog/premier-article.html">[Titre du premier article]</a>
+          <p>[Courte accroche de l'article, en une ou deux phrases.]</p>
+        </li>
+        <!-- Pour ajouter un nouvel article :
+             1. Copiez /blog/premier-article.html vers un nouveau fichier /blog/mon-article.html
+             2. Copiez /content/blog-premier-article.js vers /content/blog-mon-article.js et changez le texte
+             3. Ajoutez un nouveau <li> ci-dessus avec le titre et le lien vers /blog/mon-article.html -->
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; <span id="year"></span> Nilikaa Cantina</p>
+  </div>
+</footer>
+
+<script src="content/blog-intro.js"></script>
+<script src="assets/js/include.js"></script>
+</body>
+</html>
