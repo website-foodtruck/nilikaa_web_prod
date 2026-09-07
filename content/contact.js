@@ -7,7 +7,7 @@ window.NILIKAA_CONTENT.contact = `
   <h2>Contact &amp; demande de devis</h2>
   <p>
     Une question, une envie d'événement ? Remplissez le formulaire ci-dessous ou écrivez-nous directement à
-    <a href="mailto:chellitkahina@yahoo.com">chellitkahina@yahoo.com</a>.
+    <a href="mailto:...">...</a>.
   </p>
   <p>[Téléphone : 0X XX XX XX XX] — [Zone de déplacement : ville / région]</p>
 
