@@ -24,6 +24,10 @@ Toute décision technique doit privilégier la simplicité et la facilité de pr
 - [x] **Étape 1** : créer une version HTML type satisfaisante (structure des pages, sections, style de base) avec du contenu d'exemple.
 - [x] **Étape 2** : choisir et mettre en place l'hébergement définitif (GitHub Pages + domaine nilikaa-cantina-foodtruck.fr).
 - [x] **Étape 3** : mettre en place la CI (vérifications + déploiement automatique).
+- [x] **Étape 4 (V2)** : refonte visuelle — charte à quatre couleurs, blocs décalés alternativement à gauche et à
+      droite, bandeau défilant des festivals, contenus réels des prestations.
+- [x] **Étape 5 (V2.1)** : barre du haut en bouton menu + logo centré + bouton devis, suppression des traits
+      décoratifs, prestations en rubriques dépliables, photos en quadrillage, ordre des sections revu.
 - [ ] Formulaire de contact/devis : le site étant statique, il faudra un service tiers (ex. Formspree, ou fonctionnalité native de l'hébergeur) — à trancher à l'étape 2.
 - [ ] Structurer le blog pour que l'ajout d'un article soit trivial (un fichier = un article).
 
@@ -31,16 +35,19 @@ Toute décision technique doit privilégier la simplicité et la facilité de pr
 
 ```
 /index.html                      landing page (structure + sections vides remplies par JS)
-/blog.html                         page listant les articles de blog
+/blog.html                         page "Actus" listant les articles de blog
 /blog/<article>.html               une page HTML par article de blog
 /content/                          TOUS les textes éditables, un fichier .js par texte
-  presentation.js                  section "Le foodtruck" (histoire)
+  hero.js                          grande image d'accueil (photo de fond + titre + zone de déplacement)
+  prestation.js                    section "Nos prestations" (première section de la page)
+  partenaires.js                   bandeau défilant des festivals déjà réalisés (logos cliquables)
   food.js                          section "Notre cuisine"
-  prestation.js                    section "Prestations"
+  presentation.js                  section "Notre histoire"
   contact.js                       section "Contact" + formulaire de devis
-  blog-intro.js                    texte d'intro de la page blog
-  blog-<article>.js                contenu d'un article de blog
+  blog-intro.js                    texte d'intro de la page Actus
+  saison2026.js                    contenu d'un article de blog (un fichier par article)
 /photos/                           photos fournies par le propriétaire (logo, foodtruck, plats...)
+/photos/logos_partners/            logos des festivals affichés dans le bandeau défilant
 /assets/css/style.css              mise en page (à ne pas mélanger avec le contenu)
 /assets/js/include.js              injecte le contenu de /content/*.js dans les pages + gère l'envoi du devis
 /scripts/check_local_references.py vérifie que tous les liens/images locaux référencés existent (utilisé par la CI)
@@ -55,23 +62,106 @@ texte dans `window.NILIKAA_CONTENT.xxx`, puis `assets/js/include.js` copie ce te
 Chaque fichier `content/*.js` contient une chaîne de texte HTML entre backticks (`` ` ``) : c'est la seule partie à
 modifier. Ne pas utiliser le caractère `` ` `` ni la séquence `${` dans le texte.
 
+### Charte de couleurs (V2)
+
+Le site n'utilise que **quatre couleurs** : `#270096` (bleu profond), `#0e48c9` (bleu), `#007eff` (bleu vif) et
+`#ffffff` (blanc), plus des gris neutres pour le texte courant. Elles sont définies une seule fois en haut de
+`assets/css/style.css` (`--color-deep`, `--color-primary`, `--color-bright`, `--color-light`). **Ne pas introduire
+d'autre couleur vive** : pour changer la charte, il suffit de modifier ces quatre valeurs.
+
+### Police d'écriture
+
+Tout le site (titres comme textes courants) utilise **Lucida Sans Unicode**. C'est une police déjà installée sur les
+ordinateurs, donc rien à télécharger : le site ne dépend plus de Google Fonts. Elle est définie une seule fois en
+haut de `assets/css/style.css` (`--font-heading` et `--font-body`) ; les noms listés après sont des polices de
+secours pour les appareils qui ne l'ont pas. Pour changer la police du site, modifier ces deux lignes.
+
+### Mise en page (ordre des sections et décalage gauche/droite)
+
+Dans `index.html`, l'ordre des `<section>` est l'ordre d'affichage : **Nos prestations**, le bandeau des festivals,
+Notre cuisine, Notre histoire, Contact.
+
+Chaque section porte une classe de décalage : `section--left` (le bloc se colle vers la gauche) ou `section--right`
+(vers la droite, titre aligné à droite). Elles alternent pour casser l'effet « tout centré ». En dessous de 1000 px
+de large (mobiles, petites fenêtres), le décalage se désactive tout seul et tout se recentre.
+
+**Pas de traits ni de filets décoratifs** : aucune barre horizontale sous les titres, aucun liseré vertical le long
+des blocs. Les blocs se distinguent par leur fond (blanc ou bleu clair), leurs coins arrondis et leurs ombres
+douces. Ne pas réintroduire de `border` décorative.
+
+Le bleu clair des fonds (rubriques, bandeau des festivals, sections `.alt`) est la variable `--color-bg-alt` en haut
+de `assets/css/style.css` : une seule ligne à changer pour l'éclaircir ou l'assombrir partout d'un coup.
+
+### Barre du haut
+
+Trois éléments : le **bouton menu** (3 barres) à gauche, le **logo + « Nilikaa Cantina »** au centre (sans contour
+autour du logo), le **bouton devis** à droite (seul bouton encadré). Le bouton des 3 barres ouvre un menu déroulant
+(`#site-nav`) qui se referme au clic sur un lien, avec Échap, ou en cliquant ailleurs. Sur téléphone, le libellé du
+bouton devis se raccourcit automatiquement en « Devis ».
+
+La page blog est appelée **« Actus »** dans les menus ; les fichiers gardent leur nom (`blog.html`, `/blog/`).
+
+### Prestations : rubriques dépliables
+
+Les trois prestations (Événements privés / entreprises / publics) sont des blocs `<details class="rubrique">` :
+ce qui est dans `<summary>` reste visible (titre + début du texte), le reste s'affiche au clic. Aucun JavaScript
+n'est nécessaire, c'est une fonction native du navigateur. Pour ajouter une prestation, copier-coller un bloc
+`<details> ... </details>` dans `content/prestation.js`.
+
+### Quadrillage de photos
+
+Les sections Prestations et Notre cuisine affichent leurs photos à côté du texte, dans une grille à 2 colonnes où
+une colonne sur deux est décalée vers le bas (classe `photo-grid`). Pour changer les photos, ajouter ou retirer des
+lignes `<img>` dans le fichier de contenu concerné — de préférence un nombre pair de photos.
+
+### Bandeau défilant des festivals
+
+La section `#partenaires` (juste après les prestations) fait défiler en boucle les logos cliquables des festivals
+déjà réalisés, sous le titre « Ils nous ont fait confiance ». Tout se modifie dans `content/partenaires.js` : un bloc
+`<a> ... </a>` = un festival (mode d'emploi en haut du fichier). Les logos vivent dans `/photos/logos_partners/` et
+s'affichent dans leurs couleurs d'origine. Un logo blanc ou très clair doit porter la classe `logo-clair` pour que sa
+vignette passe en bleu foncé, sinon il serait invisible.
+
+`assets/js/include.js` recopie automatiquement la liste de logos une fois derrière elle-même pour que la boucle soit
+invisible : il n'y a rien à faire de ce côté quand on ajoute un festival.
+
+### Zone de déplacement
+
+La mention « Lyon & Auverge Rhône-Alpes, déplacement en France sur demande » apparaît à trois endroits : sous le titre du
+bandeau d'accueil (`content/hero.js`), dans le bloc de contact (`content/contact.js`) et en bas de chaque page
+(`.footer-zone` dans les fichiers HTML). Penser à la changer aux trois endroits.
+
+`assets/js/include.js` ajoute aussi : ombre sous la barre du haut au défilement, apparition en fondu des blocs, et
+mise en évidence du lien de menu actif. Ces effets sont désactivés si le visiteur a demandé « réduire les
+animations » dans son système.
+
 **Pour modifier un texte du site, il suffit d'éditer le fichier correspondant dans `/content/`, jamais les fichiers
 HTML de structure.** Ce choix (scripts classiques plutôt que `fetch()`) permet d'ouvrir `index.html` en double-clic,
 sans serveur local.
 
 ### Ajouter un article de blog
 
-1. Dupliquer `/blog/premier-article.html` en `/blog/mon-article.html` (adapter `<title>`/`<meta description>` et le
-   `<script src="../content/...">` qui pointe vers le bon fichier de contenu).
-2. Dupliquer `/content/blog-premier-article.js` en `/content/blog-mon-article.js`, changer la clé
-   (`window.NILIKAA_CONTENT['blog-mon-article']`) et écrire le texte.
+1. Dupliquer `/blog/saison2026.html` en `/blog/mon-article.html` (adapter `<title>`/`<meta description>`, le
+   `data-include="..."` et le `<script src="../content/...">` qui pointe vers le bon fichier de contenu).
+2. Dupliquer `/content/saison2026.js` en `/content/mon-article.js`, changer la clé
+   (`window.NILIKAA_CONTENT['mon-article']`) et écrire le texte.
 3. Ajouter un `<li>` dans `/blog.html` pointant vers `/blog/mon-article.html`.
+
+Le nom du fichier de contenu doit être **identique** au `data-include` de la page, sinon rien ne s'affiche (et la CI
+signale le lien cassé si le fichier n'existe pas du tout).
+
+**Article pas encore écrit :** on garde la page en ligne avec un message « Contenu actuellement non disponible »
+(paragraphe `class="article-note"` dans le fichier de contenu, voir `content/saison2026.js`). C'est volontaire : la
+page reste valide, la CI passe, et il n'y a plus qu'à remplacer le texte quand l'article est prêt.
 
 ### Formulaire de devis (v1)
 
 Le formulaire de contact (`content/contact.js`) est géré en pur JavaScript côté client (`assets/js/include.js`) :
-à l'envoi, il construit un lien `mailto:` pré-rempli vers **chellitkahina@yahoo.com** et l'ouvre dans le client mail
-du visiteur. Aucune donnée n'est envoyée à un service tiers, aucun compte externe requis — solution volontairement
+à l'envoi, il construit un lien `mailto:` pré-rempli vers **nilikaacantina@gmail.com** et l'ouvre dans le client mail
+du visiteur. Cette adresse apparaît à deux endroits qu'il faut changer ensemble : la constante `EMAIL_CONTACT` en
+haut de `assets/js/include.js` et le texte de `content/contact.js`. Le formulaire demande le nom, l'e-mail, le
+téléphone, le type d'événement, la date, l'horaire (texte libre), la localisation (code postal), le nombre d'invités
+et un message. Aucune donnée n'est envoyée à un service tiers, aucun compte externe requis — solution volontairement
 minimale pour la v1. Limite connue : nécessite que le visiteur ait un client mail configuré. Si besoin d'une
 solution plus robuste plus tard (ex. Formspree, Netlify Forms), ce sera à décider à l'étape 2 (hébergement).
 

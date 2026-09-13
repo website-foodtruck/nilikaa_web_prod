@@ -1,0 +1,10 @@
+# Fichiers listés ici = fichiers que Git doit ignorer.
+# Ils restent sur votre ordinateur mais ne partent jamais sur GitHub.
+
+# Fichiers cachés créés automatiquement par le Finder de macOS (inutiles pour le site)
+.DS_Store
+._*
+
+# Équivalent sous Windows
+Thumbs.db
+desktop.ini

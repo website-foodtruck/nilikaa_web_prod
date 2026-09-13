@@ -1,21 +1,50 @@
+/* ==========================================================================
+   Nilikaa Cantina — mise en page du site
+   Ce fichier ne contient QUE l'apparence. Les textes du site se modifient
+   dans les fichiers du dossier /content/.
+
+   Palette du site : bleu profond #270096, bleu #0e48c9, bleu vif #007eff,
+   blanc #ffffff. Ne pas ajouter d'autres couleurs vives.
+   ========================================================================== */
+
 :root {
+  --color-deep: #270096;
+  --color-deep-dark: #1b0068;
   --color-primary: #0e48c9;
   --color-primary-dark: #082f8f;
-  --color-secondary: #007eff;
-  --color-accent: #ee4a74;
-  --color-accent-dark: #c93a5e;
-  --color-highlight: #a4f738;
-  --color-highlight-dark: #8dd82a;
-  --color-dark: #1a1a1a;
+  --color-bright: #007eff;
+  --color-bright-dark: #0063cc;
   --color-light: #ffffff;
-  --color-bg-alt: #ffffff;
-  --max-width: 1100px;
-  --font-heading: "Boogaloo", cursive;
-  --font-body: "Questrial", Helvetica, Arial, sans-serif;
+
+  --color-dark: #16183a;
+  --color-muted: #565b78;
+  /* Bleu clair des fonds (rubriques, bandeau des festivals, sections alternées).
+     Pour l'éclaircir ou l'assombrir, ne changer que cette ligne. */
+  --color-bg-alt: #dbe6fb;
+
+  /* Largeur du texte, et largeur de la "bande" dans laquelle les blocs
+     peuvent glisser à gauche ou à droite (voir plus bas). */
+  --max-width: 1080px;
+  --band: 1400px;
+
+  --radius: 16px;
+  --radius-lg: 26px;
+  --shadow-soft: 0 10px 30px rgba(8, 47, 143, 0.08);
+  --shadow-card: 0 16px 40px rgba(8, 47, 143, 0.14);
+
+  /* Police de tout le site : Lucida Sans Unicode. Les noms qui suivent sont les
+     polices de secours, utilisées seulement si la première n'existe pas sur
+     l'appareil du visiteur (Mac, vieux Windows, téléphones...). */
+  --font-heading: "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Geneva, Verdana, sans-serif;
+  --font-body: "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Geneva, Verdana, sans-serif;
 }
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -23,7 +52,20 @@ body {
   font-family: var(--font-body);
   color: var(--color-dark);
   background: var(--color-light);
-  line-height: 1.6;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+a:hover {
+  color: var(--color-bright);
 }
 
 .container {
@@ -32,279 +74,836 @@ body {
   padding: 0 1.5rem;
 }
 
-a {
-  color: var(--color-primary);
+/* Texte réservé aux lecteurs d'écran (invisible à l'écran). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-a:hover {
-  color: var(--color-secondary);
-}
+/* --------------------------------------------------------------------------
+   Boutons
+   -------------------------------------------------------------------------- */
 
 .btn {
   display: inline-block;
-  background: var(--color-accent);
+  background: var(--color-bright);
   color: #fff;
-  padding: 0.75rem 1.5rem;
+  padding: 0.85rem 1.7rem;
   border-radius: 999px;
   text-decoration: none;
-  font-weight: bold;
-  border: none;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border: 2px solid var(--color-bright);
   cursor: pointer;
   font-size: 1rem;
+  font-family: inherit;
+  box-shadow: 0 8px 20px rgba(0, 126, 255, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
-.btn:hover {
-  background: var(--color-accent-dark);
+.btn:hover,
+.btn:focus-visible {
+  background: var(--color-deep);
+  border-color: var(--color-deep);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(39, 0, 150, 0.35);
 }
+
+/* --------------------------------------------------------------------------
+   Barre du haut : bouton menu à gauche, logo au centre, bouton devis à droite
+   -------------------------------------------------------------------------- */
 
 .site-header {
-  background: #fff;
-  border-bottom: 4px solid transparent;
-  border-image: linear-gradient(90deg, var(--color-primary), var(--color-secondary), var(--color-accent), var(--color-highlight)) 1;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  transition: box-shadow 0.25s ease;
+}
+
+.site-header.is-scrolled {
+  box-shadow: 0 10px 30px rgba(8, 47, 143, 0.12);
 }
 
 .header-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1.5rem;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
+  max-width: var(--band);
+  margin: 0 auto;
+  padding: 0.7rem 1.5rem;
 }
 
+/* Bouton menu (les 3 barres), à gauche. */
+.menu-toggle {
+  justify-self: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 46px;
+  height: 46px;
+  padding: 0 11px;
+  background: rgba(14, 72, 201, 0.09);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus-visible {
+  background: rgba(14, 72, 201, 0.18);
+}
+
+.menu-toggle span[aria-hidden] {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-deep);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.menu-toggle[aria-expanded="true"] span[aria-hidden]:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] span[aria-hidden]:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] span[aria-hidden]:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Logo + nom du foodtruck, au centre. */
 .logo {
+  justify-self: center;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   text-decoration: none;
-  color: var(--color-dark);
+  color: var(--color-deep);
   font-family: var(--font-heading);
-  font-size: 1.5rem;
-  letter-spacing: 0.02em;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .logo img {
-  height: 40px;
-  width: 40px;
+  height: 46px;
+  width: 46px;
   object-fit: cover;
   border-radius: 50%;
 }
 
-nav a {
-  margin-left: 1rem;
+/* Bouton devis, à droite : seul bouton encadré de la barre du haut. */
+.nav-cta {
+  justify-self: end;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: var(--color-bright);
+  color: #fff;
+  font-weight: 700;
   text-decoration: none;
-  color: var(--color-dark);
-  font-weight: 500;
+  white-space: nowrap;
+  border: 2px solid var(--color-deep);
+  box-shadow: 0 6px 16px rgba(0, 126, 255, 0.28);
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-nav a:hover {
-  color: var(--color-secondary);
+.nav-cta:hover,
+.nav-cta:focus-visible {
+  background: var(--color-deep);
+  color: #fff;
+  transform: translateY(-1px);
 }
+
+.nav-cta-short {
+  display: none;
+}
+
+/* Menu déroulant, ouvert par le bouton des 3 barres. */
+.site-nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 1rem 1.5rem 1.6rem;
+  background: #fff;
+  box-shadow: 0 16px 30px rgba(8, 47, 143, 0.14);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+}
+
+.site-nav.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.site-nav a {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--color-deep);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible,
+.site-nav a.is-active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   Bandeau d'accueil (hero)
+   -------------------------------------------------------------------------- */
 
 .hero {
-  background-size: cover;
-  background-position: center;
-  min-height: 60vh;
+  position: relative;
+  min-height: 76vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  overflow: hidden;
+  color: #fff;
 }
 
-.hero-overlay {
-  background: rgba(0, 0, 0, 0.5);
-  padding: 2.5rem;
-  border-radius: 8px;
-  color: #fff;
+.hero-media {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.04);
+}
+
+.hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(39, 0, 150, 0.6) 0%, rgba(8, 47, 143, 0.35) 45%, rgba(10, 10, 30, 0.75) 100%);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  padding: 3rem 1.5rem;
+  max-width: 760px;
+  animation: hero-in 0.9s ease both;
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
 }
 
 .hero h1 {
   font-family: var(--font-heading);
-  font-size: 3.5rem;
-  letter-spacing: 0.02em;
-  margin: 0 0 0.5rem;
+  font-size: clamp(2.4rem, 7vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.75rem;
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 }
 
-.hero p {
-  font-size: 1.25rem;
-  margin: 0 0 1.5rem;
+.hero-tagline {
+  font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+  margin: 0 auto 0.8rem;
+  max-width: 34ch;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
+
+.hero-zone {
+  margin: 0 auto;
+  max-width: 40ch;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+
+/* Petite mention grise en bas de la photo d'accueil (lieu de la photo) */
+.hero-credit {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 0.7rem;
+  z-index: 1;
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.55);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   Sections et décalage gauche / droite
+   -------------------------------------------------------------------------- */
 
 .section {
-  padding: 4rem 0;
+  position: relative;
+  padding: 5.5rem max(1.5rem, calc((100% - var(--band)) / 2 + 1.5rem));
+  scroll-margin-top: 90px;
+}
+
+.section > .container {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .section.alt {
   background: var(--color-bg-alt);
-  border-top: 1px solid rgba(14, 72, 201, 0.15);
-  border-bottom: 1px solid rgba(14, 72, 201, 0.15);
 }
 
+/* Un bloc penche à gauche, le suivant à droite : ça casse l'effet
+   "tout centré". En dessous de 1000 px de large, tout se recentre
+   automatiquement (il n'y a plus la place de décaler). */
+@media (min-width: 1000px) {
+  .section--left > .container {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .section--right > .container {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  /* Sur les blocs "à droite", le titre et le chapô sont alignés à droite,
+     mais les paragraphes longs restent alignés à gauche (plus lisible). */
+  .section--right > .container > .eyebrow,
+  .section--right > .container > h2 {
+    display: block;
+    text-align: right;
+  }
+
+  .section--right > .container > .section-lead {
+    margin-left: auto;
+  }
+}
+
+.eyebrow {
+  display: inline-block;
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-bright);
+}
+
+.section h1,
 .section h2,
 .section h3 {
   color: var(--color-primary);
   font-family: var(--font-heading);
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+}
+
+.section h1 {
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  margin: 0 0 1rem;
 }
 
 .section h2 {
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
+  font-size: clamp(1.8rem, 3.6vw, 2.5rem);
+  margin: 0 0 1.2rem;
+  color: var(--color-deep);
 }
 
 .section h3 {
-  font-size: 1.6rem;
-  margin: 2rem 0 0.5rem;
+  font-size: 1.45rem;
+  margin: 2.8rem 0 0.6rem;
+}
+
+.section p {
+  color: var(--color-muted);
+}
+
+.section-lead {
+  font-size: 1.15rem;
+  max-width: 62ch;
+}
+
+/* --------------------------------------------------------------------------
+   Texte + photos côte à côte
+   -------------------------------------------------------------------------- */
+
+.split {
+  display: grid;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 860px) {
+  .split {
+    grid-template-columns: 1.05fr 0.95fr;
+    /* Écart entre la colonne de texte et la colonne de photos. */
+    column-gap: 5rem;
+  }
+
+  /* Place les photos à gauche et le texte à droite. */
+  .split--reverse .split-media {
+    order: -1;
+  }
+
+  /* Aligne les deux colonnes sur leur haut (utile quand une rubrique s'ouvre). */
+  .split--start {
+    align-items: start;
+  }
+
+  /* "Notre cuisine" a un texte plus long que les autres sections : on lui laisse
+     plus de largeur en resserrant un peu la colonne de photos.
+     (Ici la 1re valeur est la colonne des photos, la 2e celle du texte.) */
+  #food .split {
+    grid-template-columns: 0.75fr 1.25fr;
+  }
+}
+
+/* Texte justifié (aligné des deux côtés) : le texte d'introduction de
+   "Nos prestations", et tout le texte de "Notre cuisine" et "Notre histoire".
+   Les mots ne sont jamais coupés par un tiret : un mot trop long pour la fin
+   d'une ligne part entier à la ligne suivante. */
+#prestation .section-lead,
+#food .section-lead,
+#food .split-text p,
+#presentation .section-lead,
+#presentation .split-text p {
+  text-align: justify;
+}
+
+.split-media {
+  margin: 0;
+}
+
+.split-media img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  display: block;
 }
 
 .illustration {
   max-width: 100%;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
   margin-top: 1.5rem;
 }
 
-.gallery {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
-}
+/* --------------------------------------------------------------------------
+   Quadrillage de photos : une colonne sur deux est décalée vers le bas
+   -------------------------------------------------------------------------- */
 
-.gallery figure {
-  margin: 0;
-  max-width: 320px;
-}
-
-.gallery img {
-  width: 100%;
-  border-radius: 8px;
-  display: block;
-}
-
-.gallery figcaption {
-  text-align: center;
-  margin-top: 0.5rem;
-  font-style: italic;
-}
-
-.scroll-gallery {
-  position: relative;
-  margin-top: 1.5rem;
-}
-
-.scroll-gallery-track {
-  display: flex;
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
   gap: 1rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: 0.25rem 0.25rem 0.75rem;
-  scrollbar-width: thin;
+  margin: 0;
 }
 
-.scroll-gallery-track img {
-  flex: 0 0 auto;
-  width: 260px;
-  height: 260px;
+.photo-grid img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 8px;
-  scroll-snap-align: start;
+  border-radius: var(--radius);
+  display: block;
+  box-shadow: var(--shadow-soft);
 }
 
-.scroll-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--color-highlight);
-  color: var(--color-primary);
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-size: 1.4rem;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-
-.scroll-btn:hover {
-  background: var(--color-highlight-dark);
-}
-
-.scroll-btn-prev {
-  left: -6px;
-}
-
-.scroll-btn-next {
-  right: -6px;
-}
-
-@media (max-width: 700px) {
-  .scroll-btn {
-    display: none;
+@media (min-width: 560px) {
+  .photo-grid > :nth-child(even) {
+    margin-top: 2.5rem;
   }
 }
 
-.devis-form {
-  max-width: 600px;
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
+/* --------------------------------------------------------------------------
+   Rubriques dépliables (prestations)
+   -------------------------------------------------------------------------- */
+
+.rubriques {
+  display: grid;
   gap: 1rem;
+  margin-top: 1.8rem;
+}
+
+.rubrique {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+  transition: background 0.25s ease;
+}
+
+.section.alt .rubrique {
+  background: #fff;
+}
+
+.rubrique > summary {
+  display: block;
+  cursor: pointer;
+  list-style: none;
+}
+
+.rubrique > summary::-webkit-details-marker {
+  display: none;
+}
+
+.rubrique > summary:focus-visible {
+  outline: 3px solid var(--color-bright);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.rubrique-title {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  color: var(--color-deep);
+  margin-bottom: 0.3rem;
+}
+
+.rubrique-teaser {
+  display: block;
+  color: var(--color-muted);
+}
+
+.rubrique-more {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-weight: 700;
+  color: var(--color-bright);
+}
+
+.rubrique-more::after {
+  content: "Lire la suite +";
+}
+
+.rubrique[open] .rubrique-more::after {
+  content: "Réduire \2212";
+}
+
+.rubrique > p {
+  margin: 0.8rem 0 0;
+}
+
+/* --------------------------------------------------------------------------
+   Bandeau défilant des festivals / partenaires
+   -------------------------------------------------------------------------- */
+
+.section.partners {
+  background: var(--color-bg-alt);
+  padding-left: 0;
+  padding-right: 0;
+  overflow: hidden;
+}
+
+.section.partners > .container {
+  max-width: var(--band);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.marquee {
+  margin-top: 2.2rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  padding: 0.5rem 0 1rem;
+  animation: marquee-scroll 30s linear infinite;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-item {
+  flex: 0 0 auto;
+  /* marge (et non "gap") pour que la boucle soit parfaitement invisible */
+  margin-right: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 116px;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.marquee-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.marquee-item:hover,
+.marquee-item:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+}
+
+/* À ajouter sur un logo blanc / très clair : la vignette passe en bleu foncé. */
+.marquee-item.logo-clair {
+  background: var(--color-deep);
+}
+
+/* --------------------------------------------------------------------------
+   Contact et formulaire de devis
+   -------------------------------------------------------------------------- */
+
+/* Les coordonnées sont posées simplement sur le fond de la page (pas de carte
+   colorée) ; seul le formulaire est dans un bloc bleu clair. */
+
+.contact-grid {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 3.5rem;
+  }
+}
+
+.contact-infos h3 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+
+.contact-infos ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-infos li {
+  margin-bottom: 1.4rem;
+  line-height: 1.5;
+}
+
+.contact-infos strong {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.15rem;
+}
+
+.contact-infos a {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.contact-infos a:hover {
+  text-decoration: underline;
+}
+
+.devis-form {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius);
+  padding: 1.8rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.section.alt .devis-form {
+  background: #fff;
+}
+
+@media (min-width: 620px) {
+  .devis-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-row-full,
+  .devis-form > .btn,
+  .devis-form > .form-note {
+    grid-column: 1 / -1;
+  }
 }
 
 .form-row {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.35rem;
 }
 
 .form-row label {
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-primary-dark);
 }
 
 .form-row input,
 .form-row textarea {
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid rgba(14, 72, 201, 0.2);
+  border-radius: 8px;
   font: inherit;
+  background: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.form-row input:focus,
+.form-row textarea:focus {
+  outline: 2px solid var(--color-bright);
+  outline-offset: 1px;
+  border-color: var(--color-bright);
+}
+
+.devis-form > .btn {
+  justify-self: start;
 }
 
 .form-note {
   font-size: 0.85rem;
-  color: #555;
+  color: #6b6f85;
+  margin: 0;
 }
+
+/* --------------------------------------------------------------------------
+   Actus (blog)
+   -------------------------------------------------------------------------- */
 
 .blog-list {
   list-style: none;
   padding: 0;
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .blog-list li {
-  margin-bottom: 1.5rem;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 1.6rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.blog-list li:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card);
 }
 
 .blog-list a {
   font-family: var(--font-heading);
-  font-size: 1.5rem;
-  letter-spacing: 0.02em;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   text-decoration: none;
+  line-height: 1.2;
 }
 
 .blog-list a:hover {
   text-decoration: underline;
 }
 
+.blog-list p {
+  color: var(--color-muted);
+  margin-bottom: 0;
+}
+
+.article-body {
+  max-width: 70ch;
+}
+
+.article-body h1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-deep);
+  font-size: clamp(1.9rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  margin: 0 0 1rem;
+}
+
+.article-meta {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Message affiché à la place d'un article pas encore écrit
+   (voir le mode d'emploi en haut de content/saison2026.js). */
+.article-body .article-note {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 0 0 1.5rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 2.5rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   Bas de page
+   -------------------------------------------------------------------------- */
+
 .site-footer {
-  background: var(--color-primary);
+  background: var(--color-deep);
   color: #fff;
-  padding: 1.5rem 0;
+  padding: 3rem 1.5rem 2rem;
   text-align: center;
 }
 
@@ -312,13 +911,124 @@ nav a:hover {
   color: #fff;
 }
 
-@media (max-width: 600px) {
-  .hero h1 {
-    font-size: 2rem;
+.footer-nav {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+}
+
+.footer-nav a {
+  text-decoration: none;
+}
+
+.footer-nav a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.site-footer p {
+  margin: 0.3rem 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-zone {
+  font-size: 1.05rem;
+  color: #fff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Apparition douce des blocs au défilement
+   -------------------------------------------------------------------------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 
-  nav a {
-    margin-left: 0.6rem;
-    font-size: 0.9rem;
+  .reveal,
+  .hero-inner {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
+  /* Plus de défilement automatique : le bandeau se fait glisser à la main. */
+  .marquee {
+    overflow-x: auto;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Petits écrans
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 560px) {
+  .header-inner {
+    padding: 0.6rem 1rem;
+    gap: 0.6rem;
+  }
+
+  .menu-toggle {
+    width: 42px;
+    height: 42px;
+    padding: 0 9px;
+  }
+
+  .logo {
+    font-size: 1.15rem;
+    gap: 0.45rem;
+  }
+
+  .logo img {
+    height: 38px;
+    width: 38px;
+  }
+
+  .nav-cta {
+    padding: 0.45rem 0.9rem;
+  }
+
+  .nav-cta-full {
+    display: none;
+  }
+
+  .nav-cta-short {
+    display: inline;
+  }
+
+  .marquee-item {
+    width: 160px;
+    height: 96px;
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 780px) {
+  .section {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .hero {
+    min-height: 70vh;
   }
 }
