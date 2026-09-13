@@ -1,0 +1,6 @@
+# Autorise tous les moteurs de recherche a parcourir tout le site
+User-agent: *
+Allow: /
+
+# Adresse de la liste des pages du site
+Sitemap: https://nilikaa-cantina-foodtruck.fr/sitemap.xml

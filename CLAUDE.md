@@ -53,6 +53,8 @@ Toute décision technique doit privilégier la simplicité et la facilité de pr
 /scripts/check_local_references.py vérifie que tous les liens/images locaux référencés existent (utilisé par la CI)
 /.github/workflows/ci.yml          vérifications + déploiement automatique sur GitHub Pages
 /CNAME                             nom de domaine personnalisé pour GitHub Pages (nilikaa-cantina-foodtruck.fr)
+/sitemap.xml                       liste des pages du site, donnée à Google (Search Console)
+/robots.txt                        autorise les moteurs de recherche + indique l'adresse du sitemap
 ```
 
 `index.html`, `blog.html` et les pages de `/blog/` contiennent des `<section data-include="xxx">` vides. Chaque page
@@ -146,6 +148,7 @@ sans serveur local.
 2. Dupliquer `/content/saison2026.js` en `/content/mon-article.js`, changer la clé
    (`window.NILIKAA_CONTENT['mon-article']`) et écrire le texte.
 3. Ajouter un `<li>` dans `/blog.html` pointant vers `/blog/mon-article.html`.
+4. Ajouter un bloc `<url>` dans `/sitemap.xml` pour que Google trouve le nouvel article.
 
 Le nom du fichier de contenu doit être **identique** au `data-include` de la page, sinon rien ne s'affiche (et la CI
 signale le lien cassé si le fichier n'existe pas du tout).
@@ -204,6 +207,18 @@ pour pointer vers les serveurs d'hébergement OVH, ce qui empêche GitHub Pages 
    créés automatiquement par l'hébergement, puis ajouter les 4 A + le CNAME `www` listés ci-dessus.
 3. Attendre la propagation DNS (généralement quelques minutes à quelques heures, parfois plus pour un domaine tout
    juste créé) avant que GitHub Pages ne revalide le domaine automatiquement.
+
+### Référencement Google (sitemap + Search Console)
+
+Deux fichiers à la racine servent aux moteurs de recherche :
+
+- `/sitemap.xml` : la liste des pages du site. Adresse à donner à Google Search Console :
+  **`https://nilikaa-cantina-foodtruck.fr/sitemap.xml`** (dans Search Console, menu « Sitemaps », taper simplement
+  `sitemap.xml`).
+- `/robots.txt` : autorise tous les moteurs à parcourir le site et indique où se trouve le sitemap.
+
+⚠️ **À chaque nouvel article de blog**, ajouter un bloc `<url>` dans `/sitemap.xml` (mode d'emploi en haut du
+fichier) — sinon Google risque de ne pas trouver l'article.
 
 ## Conventions pour le contenu éditable
 
