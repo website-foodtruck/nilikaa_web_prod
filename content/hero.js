@@ -8,11 +8,11 @@ window.NILIKAA_CONTENT.hero = `
 <div class="hero-media" style="background-image:url('photos/hero/foodtruck_front_bayonne_v1.jpeg');"></div>
 <div class="hero-inner">
   <h1>Nilikaa Cantina</h1>
-  <p class="hero-tagline"><em>Foodtruck Traiteur & Événementiel</em></p>
+  <p class="hero-tagline"><strong>FOODTRUCK - TRAITEUR - ÉVÉNEMENTIEL</strong></p>
   <p class="hero-tagline"></p>
-  <p class="hero-tagline">CUISINE MEDITERRANEENNE ET AU-DELA</p>
-  <p class="hero-tagline">GOOD STREET-FOOD</p>
-  <p class="hero-zone">Un univers culinaire multiculturel à Lyon &amp; Auvergne Rhône-Alpes, déplacement en France sur demande</p>
+  <p class="hero-tagline">Cuisine Méditerranéenne et Au-Delà, Lyon &amp Auvergne Rhône-Alpes</p>
+  <p class="hero-tagline">Good Street-Food</p>
+  <p class="hero-zone">Une cuisine généreuse, métissée et pleine de saveurs. De la good street food pour rassembler et partager.</p>
 </div>
 <p class="hero-credit">@Fêtes de Bayonne 2026</p>
 `;

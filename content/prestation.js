@@ -28,7 +28,7 @@ window.NILIKAA_CONTENT.prestation = `
           <summary>
             <span class="rubrique-title">Événements privés</span>
             <span class="rubrique-teaser">
-              Anniversaire, mariage, cousinade… ou tout autres événements qui rassemble...
+              Anniversaire, mariage, cousinade… ou tout autre événement qui rassemble...
             </span>
             <span class="rubrique-more"></span>
           </summary>
@@ -58,13 +58,13 @@ window.NILIKAA_CONTENT.prestation = `
           <summary>
             <span class="rubrique-title">Événements publics</span>
             <span class="rubrique-teaser">
-              Festivals, ferias, open air, fêtes populaires, événements culturels : une carte adaptée au volume, une
+              Festivals, ferias, open air, fêtes populaires, événements culturels ou sportifs : une carte adaptée au volume, une
               organisation en amont et une équipe expérimentée...
             </span>
             <span class="rubrique-more"></span>
           </summary>
           <p>
-            Nous permettent de répondre aux besoin d'un public gourmand et impatient de profiter de son événement. 
+            Nous permettent de répondre aux besoins d'un public gourmand et impatient de profiter de son événement.
             Nous nous adaptons aux grandes fréquentations et à l'identité de l'événement tout en proposant une offre de qualité et abordable au grand public.
           </p>
         </details>

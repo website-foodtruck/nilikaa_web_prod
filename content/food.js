@@ -15,15 +15,15 @@ window.NILIKAA_CONTENT.food = `
   <div class="split split--reverse split--start">
     <div class="split-text">
       <p class="section-lead">
-        <strong>De nos bowls méditerranéens et cuisine du monde</strong>, équilibré et savoureux, composés de recettes issues de nombreuses traditions culinaires 
+        <strong>De nos bowls méditerranéens et cuisine du monde</strong>, équilibrés et savoureux, composés de recettes issues de nombreuses traditions culinaires 
         <strong>aux icones de la street-food classiques ou revisitées, Nilikaa food truck Lyon</strong> vous embarque dans son univers culinaire multiculturel.
       </p>
       <p class="section-lead">
-        Nous vous créons des expériences gustatives avec notre <strong>cuisine saisonnière, local prioritairement et éco-respectueuse impérativement</strong>.
+        Nous vous créons des expériences gustatives avec notre <strong>cuisine saisonnière, locale prioritairement et éco-respectueuse impérativement</strong>.
       </p>
       <p class="section-lead">
-        Aussi nous créons pour vous une cuisine saine et parfumée, <strong>des légumes à la plancha, rôtis, mijotés, des viandes grillées, marinés, mijotées, 
-        de bonnes céréales, le tout relevés d'épices, de fromages variés et de sauces onctueuses.</strong>
+        Aussi nous créons pour vous une cuisine saine et parfumée, <strong>des légumes à la plancha, rôtis, mijotés, des viandes grillées, marinées, mijotées, 
+        de bonnes céréales, le tout relevé d'épices, de fromages variés et de sauces onctueuses.</strong>
       </p>
       <p class="section-lead">
         Côté street-food notre panel s'étend des recettes multiséculaires comme le <strong>souvlaki ou le kebab</strong> aux dernières tendances 
