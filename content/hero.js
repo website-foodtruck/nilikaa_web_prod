@@ -10,7 +10,7 @@ window.NILIKAA_CONTENT.hero = `
   <h1>Nilikaa Cantina</h1>
   <p class="hero-tagline"><strong>FOODTRUCK - TRAITEUR - ÉVÉNEMENTIEL</strong></p>
   <p class="hero-tagline"></p>
-  <p class="hero-tagline">Cuisine Méditerranéenne et Au-Delà, Lyon &amp Auvergne Rhône-Alpes</p>
+  <p class="hero-tagline">Cuisine Méditerranéenne et Au-Delà, Lyon &amp; AURA</p>
   <p class="hero-tagline">Good Street-Food</p>
   <p class="hero-zone">Une cuisine généreuse, métissée et pleine de saveurs. De la good street food pour rassembler et partager.</p>
 </div>
